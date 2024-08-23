@@ -19,24 +19,24 @@ const FoodCard: React.FC<FoodCardProps> = ({ image, title, location, rating, onC
       onClick={onClick}
       className={`flex items-start border border-gray-200 rounded-lg shadow-lg overflow-hidden bg-white transition-transform duration-200 ${
         onClick ? 'cursor-pointer hover:scale-105' : ''
-      }`}
+      } bg-white bg-opacity-0`}
     >
       {/* Gambar */}
       <div className="w-1/3">
-        <img src={image} alt={title} className="w-full h-full object-cover" />
+        <img src={image} alt={title} className="w-full h-full object-cover rounded-lg" />
       </div>
 
       {/* Isi */}
       <div className="w-2/3 p-4">
         <h3 className="text-xl font-bold">{title} - {location}</h3>
         {rating && (
-          <p className="text-yellow-500 mt-2">
+          <p className="text-yellow-500 mt-1">
             ⭐ {rating} <span className="text-gray-500">({review})</span>
           </p>
         )}
-        <ul className="list-disc list-inside mt-4 text-gray-700">
-          {range && time && (<li className="mt-2">{range} km → {time} mins</li>)}
-          {type && (<li className="mt-2">{type}</li>)}
+        <ul className="list-disc list-inside mt-1 text-gray-700">
+          {range && time && (<li className="mt-1">{range} km → {time} mins</li>)}
+          {type && (<li className="mt-1">{type}</li>)}
         </ul>
       </div>
     </div>
