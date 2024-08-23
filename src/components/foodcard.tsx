@@ -17,7 +17,7 @@ const FoodCard: React.FC<FoodCardProps> = ({ image, title, location, rating, onC
   return (
     <div
       onClick={onClick}
-      className={`flex items-start border border-gray-200 rounded-lg shadow-lg overflow-hidden bg-white transition-transform duration-200 ${
+      className={`flex items-start  rounded-lg overflow-hidden bg-white transition-transform duration-200 ${
         onClick ? 'cursor-pointer hover:scale-105' : ''
       } bg-white bg-opacity-0`}
     >
@@ -35,8 +35,8 @@ const FoodCard: React.FC<FoodCardProps> = ({ image, title, location, rating, onC
           </p>
         )}
         <ul className="list-disc list-inside mt-1 text-gray-700">
-          {range && time && (<li className="mt-1">{range} km → {time} mins</li>)}
-          {type && (<li className="mt-1">{type}</li>)}
+          {range && time && (<li className="mt-0">{range} km → {time} mins</li>)}
+          {type && (<li className="mt-0">{type}</li>)}
         </ul>
       </div>
     </div>
