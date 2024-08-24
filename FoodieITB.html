@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=\, initial-scale=1.0">
+    <title>Homepage</title>
+    <link rel = 'stylesheet' href = 'Milestone/FoodieITB.css'>
+
+<style>
+body {
+    background: #F1F0F0;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 10px;
+    background-color: #F1F0F0;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 60px;
+    color: #46404F;
+    font-family:'Rubik One';
+}
+
+.search-bar {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.search-bar input{
+    width: 80%;
+    padding: 10px;
+    margin-left: 100px;
+    border : 1px solid #373636;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header2{
+    width: 87%;
+    padding: 5px 10%;
+    display : flex;
+    justify-content : right;
+    align-items: right;
+    z-index: 100;
+}
+
+.navbar a {
+    font-size: 18px;
+    color: #000;
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 35px;
+    line-height: 3px;
+}
+
+.navbar a:hover {
+    color: #BCC4EE;
+}
+
+.card1 {
+    box-sizing: border-box;
+    position: fixed;
+    width: 460px;
+    height: 100px;
+    left: 200px;
+    top: 290px;
+    background: linear-gradient(90deg, #FF8A8A 0%, #FFD8D8 0.01%, #FFCBCB 100%);
+    border: 1px solid rgba(206, 193, 193, 0.8);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+}
+.card1 h2 {
+    margin-left: 25px;
+    font-family: 'Glory';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 10px;
+    /* or 48% */
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.5px;
+    color: #292929;
+}
+.card1 p{
+    margin-left: 25px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 10px;
+    /* or 120% */
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.5px;
+    color: #000000;
+}
+
+.food-icon1 {
+    position: absolute;
+    width: 80px;
+    height: 76px;
+    left: 340px;
+    top: 11px;
+}
+
+.food-icon2 {
+    position: absolute;
+    width: 36px;
+    height: 24px;
+    left: 342px;
+    top: 66px;
+}
+
+.food-icon3{
+    position: absolute;
+    width: 28px;
+    height: 32px;
+    left: 384px;
+    top: 60px;
+}
+
+/* LEADERBOARD */
+.card2 {
+    box-sizing: border-box;
+    position: fixed;
+    width: 460px;
+    height: 100px;
+    right: 200px;
+    top: 290px;
+    background: linear-gradient(90deg, #F0EAAC 0%, #F9F7DC 100%);
+    border: 1px solid rgba(206, 193, 193, 0.8);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+}
+
+.card2 h2 {
+    margin-left: 25px;
+    font-family: 'Glory';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 10px;
+    /* or 48% */
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.5px;
+    color: #292929;
+}
+
+.card2 p {
+    margin-left: 25px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 10px;
+    /* or 120% */
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.5px;
+    color: #000000;
+}
+
+.chart-icon{
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    right: 48px;
+    top: 18px;
+}
+
+/* UNDER 50K*/
+.card3 {
+    box-sizing: border-box;
+    position: fixed;
+    width: 460px;
+    height: 100px;
+    left: 200px;
+    top: 410px;
+    background: linear-gradient(90deg, #F4DEB3 0%, #F6E4C1 19%, #FAEFDB 52%, #F6E3BE 99.99%, #FFFFFF 100%);
+    border: 1px solid rgba(206, 193, 193, 0.8);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+}
+
+.card3 h2 {
+    margin-left: 25px;
+    font-family: 'Glory';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 10px;
+    /* or 48% */
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.5px;
+    color: #292929;
+}
+
+.card3 p {
+    margin-left: 25px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 10px;
+    /* or 120% */
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.5px;
+    color: #000000;
+}
+
+.money-icon {
+    position: absolute;
+    width: 60px;
+    height: 90px;
+    left: 350px;
+    top: 1px;
+}
+
+/* TODAY'S CHOICES */
+.card4 {
+    box-sizing: border-box;
+    position: fixed;
+    width: 460px;
+    height: 100px;
+    right: 200px;
+    top: 410px;
+    background: linear-gradient(90deg, #CCE0AC 0%, #DFFFAC 100%);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+}
+
+.card4 h2 {
+    margin-left: 25px;
+    font-family: 'Glory';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 10px;
+    /* or 48% */
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.5px;
+    color: #292929;
+}
+
+.card4 p {
+    margin-left: 25px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 10px;
+    /* or 120% */
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.5px;
+    color: #000000;
+}
+
+.good-icon {
+    position: absolute;
+    width: 60px;
+    height: 90px;
+    right: 48px;
+    top: 1px;
+}
+
+</style>
+</head>
+<!-- Bagian header dan pencarian lokasi -->
+<body>
+    <div class="container">
+        <link href='https://fonts.googleapis.com/css?family=Rubik One' rel='stylesheet'>
+        <div class="header">
+            <div class="location">
+                <i class = 'fa-map-marker-alt'></i>
+                <input type = 'search' id="location" name = 'location' placeholder="Type a location..." required>
+                <button type = 'submit'>Search</button>
+            </div>
+
+            <!-- header -->
+        <header class = 'header2'>
+            <nav class = 'navbar'>
+                <ul>
+                    <a href="#">Home</a>
+                    <a href="#">Near Me</a>
+                    <a href="#">Under 50k</a>
+                    <a href="#">Leaderboard</a>
+                    <a href="#">Today's Choices</a>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Bagian Near Me, Leaderboard, Under 50k, Today's Choices -->
+        <h1>FOODIE ITB</h1>
+
+        <div class="search-bar">
+            <input type="search" placeholder="What food is on your mind?">
+        </div>
+
+        <!--Fitur Near Me -->
+        <div class="cards">
+            <link href='https://fonts.googleapis.com/css?family=Glory' rel='stylesheet'>
+            <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+            <div class="card1">
+                <h2>Near Me</h2>
+                <p>Get it quick.</p>
+                <div class="card-image">
+                    <div class="location-icon">
+                    </div>
+                    <div>
+                        <img class = 'food-icon1' src="location_on.png">
+                        <img class = 'food-icon2' src="food wine cheese bread national culture paris.png">
+                        <img class = 'food-icon3' src="beer_.png">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fitur Leaderboard -->
+            <div class="card2">
+                <h2>Leaderboard</h2>
+                <p>Top popular foods.</p>
+                <div class="card-image">
+                    <img class = 'chart-icon' src="chart with upwards trend.png">
+                </div>
+            </div>
+
+            <!-- Fitur under 50k -->
+            <div class="card3">
+                <h2>Under 50k</h2>
+                <p>Exclusive end-of-months food deals.</p>
+                <div class="card-image">
+                    <img class = 'money-icon' src= "Frame 16.png">
+                </div>
+            </div>
+
+            <!-- Fitur Today's Choices -->
+            <div class="card4">
+                <h2>Today's Choices</h2>
+                <p>TODAY'S SURPRISE FOODS!!</p>
+                <div class="card-image">
+                    <img class = 'good-icon' src="Group 16.png">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
