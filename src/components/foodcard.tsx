@@ -1,27 +1,36 @@
+'use client';
 import { SelectRestaurant } from "@/db/schema";
+import { useState } from "react";
 import Image from "next/image";
 
 export function FoodCard({ restaurant }: { restaurant: SelectRestaurant }) {
   const { name, address, photo, rating, distance, price } = restaurant;
+  const [imgSrc, setImgSrc] = useState(photo);
+
+  const handleImageError = () => {
+    setImgSrc("/logo.png");
+  }
+
   return (
     <div
-      className={`flex items-start  rounded-lg overflow-hidden transition-transform duration-200`}
+      className={`flex items-start rounded-lg h-full overflow-hidden transition-transform duration-200`}
     >
       {/* Gambar */}
       {photo !== "No photo available" && (
-        <div className="w-1/3">
+        <div className="flex w-1/3 h-full object-contain">
           <Image
-            src={photo}
+            src={imgSrc}
             alt={name}
             width={200}
             height={200}
-            className=" object-cover rounded-lg"
+            className=" object-fill rounded-lg"
+            onError={handleImageError}
           />
         </div>
       )}
 
       {/* Isi */}
-      <div className="w-2/3 p-4">
+      <div className="w-2/3 px-4">
         <h3 className="text-[#000000] font-bold">
           {name} - {address}
         </h3>
@@ -33,7 +42,7 @@ export function FoodCard({ restaurant }: { restaurant: SelectRestaurant }) {
           )}
           {distance && (
             <span className="mt-0 text-[#000000]">
-               {(distance / 1000).toFixed(1)} km -> {(distance / 500).toFixed(1)} mins
+                {(distance / 1000).toFixed(1)} km {'->'} {(distance / 500).toFixed(1)} mins
             </span>
           )}
           {price !== "Unknown" && (

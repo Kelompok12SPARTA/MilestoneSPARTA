@@ -4,7 +4,11 @@ import location from "../../public/location.svg";
 import fifty from "../../public/50.svg";
 import chart from "../../public/chart.svg";
 import thumbs from "../../public/thumbs.svg";
+import { db } from "@/db";
+import { restaurantTable } from "@/db/schema";
+import { FoodCard } from "@/components/foodcard";
 import Image from "next/image";
+import Search from "@/components/search";
 
 const cardData = [
   {
@@ -46,14 +50,20 @@ const cardData = [
   // Add more card data as needed
 ];
 
-export default function Home() {
+
+export default async function Home() {
+  const restaurants = await db
+    .select()
+    .from(restaurantTable)
+    .limit(20);
+
   return (
     <main className="bg-[#F1F0F0] flex min-h-screen flex-col items-center p-24 pt-28">
       <div className="w-full flex flex-col items-center justify-center">
         <h1 className="text-[#46404F] text-6xl font-extrabold mb-6">
           FOODIE ITB
         </h1>
-        <SearchBar />
+        {/* <SearchBar /> */}
       </div>
       <div className="mt-12 w-full grid grid-cols-2 gap-x-12 gap-y-6">
         {cardData.map((card) => (
@@ -67,6 +77,12 @@ export default function Home() {
             path={card.path}
           />
         ))}
+      </div>
+      <div className="flex flex-col mt-12">
+        <h1 className="text-[#46404F] text-4xl font-extrabold mb-6">
+          Today&rsquo;s Choices
+        </h1>
+        <Search restaurants={restaurants} recommended={true}/>
       </div>
     </main>
   );

@@ -1,12 +1,19 @@
 import React from 'react';
 
-const SearchBar: React.FC = () => {
+interface SearchBarProps {
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const SearchBar: React.FC<SearchBarProps> = ({ value, onChange }) => {
   return (
     <div className="flex items-center justify-center w-full">
       <div className="relative w-full">
         <input
           type="text"
           placeholder="Search..."
+          value={value}
+          onChange={onChange}
           className="w-full pl-6 pr-4 py-2 rounded-[20px] border border-black focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <div className="absolute inset-y-0 right-5 flex items-center pl-3 pointer-events-none">
