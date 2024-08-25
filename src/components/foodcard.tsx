@@ -1,46 +1,46 @@
-import React from 'react';
+import { SelectRestaurant } from "@/db/schema";
+import Image from "next/image";
 
-interface FoodCardProps {
-  image: string;
-  title: string;
-  location: string;
-  range?: number;
-  rating?: number;
-  review?: string;
-  type?: string;
-  time?: string;
-  onClick?: () => void;
-  footer?: React.ReactNode;
-}
-
-const FoodCard: React.FC<FoodCardProps> = ({ image, title, location, rating, onClick, review, range, time, type }) => {
+export function FoodCard({ restaurant }: { restaurant: SelectRestaurant }) {
+  const { name, address, photo, rating, distance, price } = restaurant;
   return (
     <div
-      onClick={onClick}
-      className={`flex items-start  rounded-lg overflow-hidden bg-white transition-transform duration-200 ${
-        onClick ? 'cursor-pointer hover:scale-105' : ''
-      } bg-white bg-opacity-0`}
+      className={`flex items-start  rounded-lg overflow-hidden transition-transform duration-200`}
     >
       {/* Gambar */}
-      <div className="w-1/3">
-        <img src={image} alt={title} className="w-full h-full object-cover rounded-lg" />
-      </div>
+      {photo !== "No photo available" && (
+        <div className="w-1/3">
+          <Image
+            src={photo}
+            alt={name}
+            width={200}
+            height={200}
+            className=" object-cover rounded-lg"
+          />
+        </div>
+      )}
 
       {/* Isi */}
       <div className="w-2/3 p-4">
-        <h3 className="text-xl font-bold">{title} - {location}</h3>
-        {rating && (
-          <p className="text-yellow-500 mt-1">
-            ⭐ {rating} <span className="text-gray-500">({review})</span>
-          </p>
-        )}
-        <ul className="list-disc list-inside mt-1 text-gray-700">
-          {range && time && (<li className="mt-0">{range} km → {time} mins</li>)}
-          {type && (<li className="mt-0">{type}</li>)}
-        </ul>
+        <h3 className="text-[#000000] font-bold">
+          {name} - {address}
+        </h3>
+        <div className="flex flex-col gap-2">
+          {rating && (
+            <p className="text-[#000000] mt-1">
+              ⭐ {rating} <span className="text-[#000000]">({})</span>
+            </p>
+          )}
+          {distance && (
+            <span className="mt-0 text-[#000000]">
+               {(distance / 1000).toFixed(1)} km -> {(distance / 500).toFixed(1)} mins
+            </span>
+          )}
+          {price !== "Unknown" && (
+            <span className="mt-0 text-[#000000]">{price}</span>
+          )}
+        </div>
       </div>
     </div>
   );
-};
-
-export default FoodCard;
+}

@@ -6,7 +6,7 @@ export const restaurantTable = sqliteTable('Restaurant', {
   name: text('name').notNull(),
   address: text('address').notNull(),
   rating: integer('rating').notNull(),
-  price: integer('price').notNull(),
+  price: text('price').notNull(),
   distance: integer('distance').notNull(),
   photo: text('photo').notNull(),
   link: text('link').notNull(),
