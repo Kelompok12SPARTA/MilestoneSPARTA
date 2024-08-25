@@ -18,4 +18,9 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(product);
 }
 //#endregion
- 
+
+export async function SORT(id: any, _type: string) {
+    const object = await db.query.restaurantTable.findMany({
+        orderBy: (restaurantTable, { asc }) => [asc(restaurantTable.distance)],limit: 5, offset: 1})
+    return NextResponse.json(object);
+}
