@@ -34,10 +34,10 @@ const Navbar: React.FC = () => {
             Home
           </button>
         </a>
-        <a href="/Nearme">
+        <a href="/nearme">
           <button
             className={`px-8 py-2 border-black rounded-3xl hover:underline ${
-              pathname === "/Nearme" ? "bg-[#BCC4EE] border-black border-2" : ""
+              pathname === "/nearme" ? "bg-[#BCC4EE] border-black border-2" : ""
             }`}
           >
             Near Me
