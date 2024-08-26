@@ -2,9 +2,10 @@
 import { SelectRestaurant } from "@/db/schema";
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export function FoodCard({ restaurant }: { restaurant: SelectRestaurant }) {
-  const { name, address, photo, rating, distance, price } = restaurant;
+  const { name, address, photo, rating, distance, price, link } = restaurant;
   const [imgSrc, setImgSrc] = useState(photo);
 
   const handleImageError = () => {
@@ -12,6 +13,7 @@ export function FoodCard({ restaurant }: { restaurant: SelectRestaurant }) {
   }
 
   return (
+    <Link href={link} passHref>
     <div
       className={`flex items-start rounded-lg h-full overflow-hidden transition-transform duration-200`}
     >
@@ -51,5 +53,6 @@ export function FoodCard({ restaurant }: { restaurant: SelectRestaurant }) {
         </div>
       </div>
     </div>
+    </Link>
   );
 }
