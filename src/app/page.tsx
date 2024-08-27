@@ -55,7 +55,6 @@ export default async function Home() {
   const restaurants = await db
     .select()
     .from(restaurantTable)
-    .limit(20);
 
   return (
     <main className="bg-[#F1F0F0] flex min-h-screen flex-col items-center p-24 pt-28">

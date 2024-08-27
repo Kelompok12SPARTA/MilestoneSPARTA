@@ -1,12 +1,13 @@
 "use client";
 import React from "react";
 import { useState, useEffect } from "react";
+import { useLocation } from "../utils/LocationContext";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 
 const Navbar: React.FC = () => {
   const [shadow, setShadow] = useState(false);
-  const [location, setLocation] = useState<string | null>(null);
+  const { location, isLoading } = useLocation();
   const pathname = usePathname();
 
   useEffect(() => {
@@ -20,44 +21,6 @@ const Navbar: React.FC = () => {
     };
   }, []);
 
-  useEffect(() => {
-    // Get user location
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          // Fetch address from coordinates (using a reverse geocoding service)
-          fetch(
-            `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyArvOXJWyyD7mAu6xSb_zM1DAXgr59zcog`
-          )
-            .then((response) => response.json())
-          .then((data) => {
-            if (data.results && data.results.length > 0) {
-              // Extract street number and street name
-              const addressComponents = data.results[0].address_components;
-              
-              const streetNumber = addressComponents.find((component: any) =>
-                component.types.includes("street_number")
-              );
-              const streetName = addressComponents.find((component: any) =>
-                component.types.includes("route")
-              );
-
-              // Combine street number and street name
-              const fullAddress = `${streetName ? streetName.long_name : ""}
-                ${streetNumber ? "No." + streetNumber.long_name : ""}`
-                ;
-
-              setLocation(fullAddress.trim() || "Address not found");
-            }
-          })
-        },
-        (error) => {
-          console.error("Error getting location:", error);
-        }
-      );
-    }
-  }, []);
   return (
     <nav
       className={`fixed bg-[#F1F0F0] text-black px-12 flex w-full h-[80px] z-20 items-center justify-end ${
@@ -65,11 +28,15 @@ const Navbar: React.FC = () => {
       }`}
     >
       <div className="w-full flex justify-between items-center">
-        <div className={`flex items-center justify-center gap-2 text-base text-white h-[50px] px-6 rounded-lg bg-[#624F66] `}>
+        <div
+          className={`flex items-center justify-center gap-2 text-base text-white h-[50px] px-6 rounded-lg bg-[#624F66] `}
+        >
           <div className={location ? "block" : "hidden"}>
             <Image src="/point.svg" width={20} height={20} alt="Location" />
           </div>
-          {location ? `${location}` : "Getting your location..."}
+          {!isLoading
+            ? location.address || "Address not found"
+            : "Getting your location..."}
         </div>
         <div className="flex gap-4 items-center justify-center">
           <a href="/">
@@ -84,7 +51,9 @@ const Navbar: React.FC = () => {
           <a href="/nearme">
             <button
               className={`px-8 py-2 border-black rounded-3xl hover:underline ${
-                pathname === "/nearme" ? "bg-[#BCC4EE] border-black border-2" : ""
+                pathname === "/nearme"
+                  ? "bg-[#BCC4EE] border-black border-2"
+                  : ""
               }`}
             >
               Near Me
@@ -93,7 +62,9 @@ const Navbar: React.FC = () => {
           <a href="/under50k">
             <button
               className={`px-8 py-2 border-black rounded-3xl hover:underline ${
-                pathname === "/under50k" ? "bg-[#BCC4EE] border-black border-2" : ""
+                pathname === "/under50k"
+                  ? "bg-[#BCC4EE] border-black border-2"
+                  : ""
               }`}
             >
               Under 50k
@@ -102,7 +73,9 @@ const Navbar: React.FC = () => {
           <a href="/leaderboard">
             <button
               className={`px-8 py-2 border-black rounded-3xl hover:underline ${
-                pathname === "/leaderboard" ? "bg-[#BCC4EE] border-black border-2" : ""
+                pathname === "/leaderboard"
+                  ? "bg-[#BCC4EE] border-black border-2"
+                  : ""
               }`}
             >
               Leaderboard
@@ -117,7 +90,7 @@ const Navbar: React.FC = () => {
               Today&apos;s Choices
             </button>
           </a>
-        </div> 
+        </div>
       </div>
     </nav>
   );

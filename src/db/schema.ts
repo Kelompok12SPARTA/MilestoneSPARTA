@@ -3,13 +3,13 @@ import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
 export const restaurantTable = sqliteTable('restaurant', {
   id: integer('id').primaryKey(),
-  name: text('name'),
-  address: text('address'),
-  rating: integer('rating'),
-  price: text('price'),
+  name: text('name').notNull(),
+  address: text('address').notNull(),
+  rating: integer('rating').notNull(),
+  price: text('price').notNull(),
   distance: integer('distance'),
-  photo: text('photo'),
-  link: text('link'),
+  photo: text('photo').notNull(),
+  link: text('link').notNull(),
 });
 
 export const reviewsTable = sqliteTable('reviews',{
