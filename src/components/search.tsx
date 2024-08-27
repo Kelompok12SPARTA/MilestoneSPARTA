@@ -7,10 +7,10 @@ import { Restaurant } from "@/types/components";
 
 interface SearchProps {
   restaurants: Restaurant[];
-  recommended?: boolean | false;
+  type?: 'recommended' | 'leaderboard' | 'default';
 }
 
-function Search({ restaurants, recommended }: SearchProps) {
+function Search({ restaurants, type }: SearchProps) {
   const [searchTerm, setSearchTerm] = useState(""); // State for search input
   const [currentPage, setCurrentPage] = useState(1); // State for pagination  
   const totalItemsPerPage = 12; // Total items per page
@@ -25,7 +25,7 @@ function Search({ restaurants, recommended }: SearchProps) {
 
   const totalPages = Math.ceil(filteredRestaurants.length / totalItemsPerPage); // Total pages
 
-  const gridColumnsClass = recommended ? "grid-cols-3" : "grid-cols-2"; // Conditional grid columns
+  const gridColumnsClass = type === 'recommended' ? "grid-cols-3" : type === "leaderboard" ? "grid-cols-1" : "grid-cols-2"; // Conditional grid columns
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -42,13 +42,13 @@ function Search({ restaurants, recommended }: SearchProps) {
   return (
     <>
       <SearchBar value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} /> {/* Pass state and updater */}
-      <div className={`grid ${gridColumnsClass} gap-4 mt-12`}>
+      <div className={`grid ${gridColumnsClass} gap-4 gap-y-6 mt-12`}>
         {currentItems.map((restaurant) => (
           <FoodCard key={restaurant.id} restaurant={restaurant} />
         ))}
       </div>
       {filteredRestaurants.length > totalItemsPerPage && (
-        <div className="flex justify-between items-center mt-4">
+        <div className="flex w-full justify-between items-center mt-4">
           <button 
           onClick={handlePrevPage}
           disabled={currentPage === 1}

@@ -9,23 +9,23 @@ export function FoodCard({ restaurant }: { restaurant: SelectRestaurant }) {
   const [imgSrc, setImgSrc] = useState(photo);
 
   const handleImageError = () => {
-    setImgSrc("/logo.png");
+    setImgSrc("/food.jpg");
   }
 
   return (
     <Link href={link} passHref>
     <div
-      className={`flex items-start rounded-lg h-full overflow-hidden transition-transform duration-200`}
+      className={`flex items-start hover:scale-[1.01] rounded-lg h-full overflow-hidden transition-transform duration-200`}
     >
       {/* Gambar */}
       {photo !== "No photo available" && (
-        <div className="flex w-1/3 h-full object-contain">
+        <div className="flex w-auto h-full max-h-[144px] object-cover">
           <Image
             src={imgSrc}
             alt={name}
             width={200}
             height={200}
-            className=" object-fill rounded-lg"
+            className=" object-cover rounded-lg"
             onError={handleImageError}
           />
         </div>

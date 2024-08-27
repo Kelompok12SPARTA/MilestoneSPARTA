@@ -1,4 +1,5 @@
 import { FoodCard } from "@/components/foodcard";
+import Search from "@/components/search";
 import { db } from "@/db";
 import { restaurantTable } from "@/db/schema";
 import { sql } from "drizzle-orm";
@@ -16,11 +17,7 @@ export default async function Home() {
         <h1 className="text-[#46404F] text-left w-full text-6xl font-extrabold mb-6">
           Under 50k
         </h1>
-        <div className="grid grid-cols-3 gap-4">
-          {restaurants.map((restaurant) => (
-            <FoodCard key={restaurant.id} restaurant={restaurant} />
-          ))}
-        </div>
+        <Search restaurants={restaurants} type="default"/>
       </div>
     </main>
   );

@@ -78,11 +78,11 @@ export default async function Home() {
           />
         ))}
       </div>
-      <div className="flex flex-col mt-12">
+      <div className="flex flex-col mt-12 w-full justify-center items-center">
         <h1 className="text-[#46404F] text-4xl font-extrabold mb-6">
           Today&rsquo;s Choices
         </h1>
-        <Search restaurants={restaurants} recommended={true}/>
+        <Search restaurants={restaurants} type='recommended'/>
       </div>
     </main>
   );

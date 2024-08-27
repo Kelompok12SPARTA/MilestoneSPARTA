@@ -2,9 +2,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 const Navbar: React.FC = () => {
   const [shadow, setShadow] = useState(false);
+  const [location, setLocation] = useState<string | null>(null);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -18,58 +20,104 @@ const Navbar: React.FC = () => {
     };
   }, []);
 
+  useEffect(() => {
+    // Get user location
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          // Fetch address from coordinates (using a reverse geocoding service)
+          fetch(
+            `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyArvOXJWyyD7mAu6xSb_zM1DAXgr59zcog`
+          )
+            .then((response) => response.json())
+          .then((data) => {
+            if (data.results && data.results.length > 0) {
+              // Extract street number and street name
+              const addressComponents = data.results[0].address_components;
+              
+              const streetNumber = addressComponents.find((component: any) =>
+                component.types.includes("street_number")
+              );
+              const streetName = addressComponents.find((component: any) =>
+                component.types.includes("route")
+              );
+
+              // Combine street number and street name
+              const fullAddress = `${streetName ? streetName.long_name : ""}
+                ${streetNumber ? "No." + streetNumber.long_name : ""}`
+                ;
+
+              setLocation(fullAddress.trim() || "Address not found");
+            }
+          })
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+        }
+      );
+    }
+  }, []);
   return (
     <nav
       className={`fixed bg-[#F1F0F0] text-black px-12 flex w-full h-[80px] z-20 items-center justify-end ${
         shadow ? "shadow-lg" : " "
       }`}
     >
-      <div className="flex gap-4">
-        <a href="/">
-          <button
-            className={`px-8 py-2 border-black rounded-3xl hover:border-2 ${
-              pathname === "/" ? "bg-[#BCC4EE] border-black border-2" : ""
-            }`}
-          >
-            Home
-          </button>
-        </a>
-        <a href="/nearme">
-          <button
-            className={`px-8 py-2 border-black rounded-3xl hover:underline ${
-              pathname === "/nearme" ? "bg-[#BCC4EE] border-black border-2" : ""
-            }`}
-          >
-            Near Me
-          </button>
-        </a>
-        <a href="/under50k">
-          <button
-            className={`px-8 py-2 border-black rounded-3xl hover:underline ${
-              pathname === "/under50k" ? "" : ""
-            }`}
-          >
-            Under 50k
-          </button>
-        </a>
-        <a href="/leaderboard">
-          <button
-            className={`px-8 py-2 border-black rounded-3xl hover:underline ${
-              pathname === "/leaderboard" ? "" : ""
-            }`}
-          >
-            Leaderboard
-          </button>
-        </a>
-        <a href="/today-choice">
-          <button
-            className={`px-8 py-2 border-black rounded-3xl hover:underline ${
-              pathname === "/today-choice" ? "" : ""
-            }`}
-          >
-            Today&apos;s Choices
-          </button>
-        </a>
+      <div className="w-full flex justify-between items-center">
+        <div className={`flex items-center justify-center gap-2 text-base text-white h-[50px] px-6 rounded-lg bg-[#624F66] `}>
+          <div className={location ? "block" : "hidden"}>
+            <Image src="/point.svg" width={20} height={20} alt="Location" />
+          </div>
+          {location ? `${location}` : "Getting your location..."}
+        </div>
+        <div className="flex gap-4 items-center justify-center">
+          <a href="/">
+            <button
+              className={`px-8 py-2 border-black rounded-3xl hover:underline ${
+                pathname === "/" ? "bg-[#BCC4EE] border-black border-2" : ""
+              }`}
+            >
+              Home
+            </button>
+          </a>
+          <a href="/nearme">
+            <button
+              className={`px-8 py-2 border-black rounded-3xl hover:underline ${
+                pathname === "/nearme" ? "bg-[#BCC4EE] border-black border-2" : ""
+              }`}
+            >
+              Near Me
+            </button>
+          </a>
+          <a href="/under50k">
+            <button
+              className={`px-8 py-2 border-black rounded-3xl hover:underline ${
+                pathname === "/under50k" ? "bg-[#BCC4EE] border-black border-2" : ""
+              }`}
+            >
+              Under 50k
+            </button>
+          </a>
+          <a href="/leaderboard">
+            <button
+              className={`px-8 py-2 border-black rounded-3xl hover:underline ${
+                pathname === "/leaderboard" ? "bg-[#BCC4EE] border-black border-2" : ""
+              }`}
+            >
+              Leaderboard
+            </button>
+          </a>
+          <a href="/today-choice">
+            <button
+              className={`px-8 py-2 border-black rounded-3xl hover:underline ${
+                pathname === "/today-choice" ? "" : ""
+              }`}
+            >
+              Today&apos;s Choices
+            </button>
+          </a>
+        </div> 
       </div>
     </nav>
   );
