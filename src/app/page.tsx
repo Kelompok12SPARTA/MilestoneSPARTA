@@ -36,7 +36,7 @@ const cardData = [
     image: chart,
     altText: "Another icon",
     color: "F0EAAC",
-    path: "/leaderboard",
+    path: "/Comingsoon",
   },
   {
     id: 4,
@@ -55,34 +55,33 @@ export default async function Home() {
   const restaurants = await db
     .select()
     .from(restaurantTable)
-    .limit(20);
 
   return (
-    <main className="bg-[#F1F0F0] flex min-h-screen flex-col items-center p-24 pt-28">
+    <main className="bg-[#F1F0F0] flex min-h-screen flex-col items-center p-12 sm:p-24 pt-28">
       <div className="w-full flex flex-col items-center justify-center">
-        <h1 className="text-[#46404F] text-6xl font-extrabold mb-6">
+        <h1 className="text-[#46404F] text-5xl sm:text-6xl font-extrabold mb-6">
           FOODIE ITB
         </h1>
         {/* <SearchBar /> */}
       </div>
-      <div className="mt-12 w-full grid grid-cols-2 gap-x-12 gap-y-6">
+      <div className="mt-12 w-full flex flex-col sm:grid sm:grid-cols-2 gap-x-12 gap-y-6">
         {cardData.map((card) => (
           <Card
+            id={card.id}
             key={card.id}
             title={card.title}
             description={card.description}
             image={card.image}
             altText={card.altText}
-            color={card.color || "#FFCBCB"}
             path={card.path}
           />
         ))}
       </div>
-      <div className="flex flex-col mt-12">
+      <div className="flex flex-col mt-12 w-full justify-center items-center">
         <h1 className="text-[#46404F] text-4xl font-extrabold mb-6">
           Today&rsquo;s Choices
         </h1>
-        <Search restaurants={restaurants} recommended={true}/>
+        <Search restaurants={restaurants} type='recommended'/>
       </div>
     </main>
   );
