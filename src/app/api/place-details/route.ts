@@ -5,7 +5,6 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const placeId = searchParams.get('placeId');
   const apiKey = process.env.GOOGLE_API_KEY; // Use environment variable for API key
-  console.log("API BRO", apiKey)
 
   if (!placeId) {
     return NextResponse.json({ error: 'Invalid placeId' }, { status: 400 });
