@@ -11,6 +11,7 @@ const LocationContext = createContext<LocationContextProps>({
   isLoading: true,
 });
 
+
 export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {

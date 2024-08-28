@@ -1,4 +1,5 @@
 // components/FoodCard.tsx
+'use client';
 import { useState, useEffect } from "react";
 import { SelectRestaurant } from "@/db/schema";
 import Image from "next/image";
@@ -8,7 +9,8 @@ import { fetchPlaceCoordinates } from "@/utils/mapUtils"; // Import the function
 
 export function FoodCard({ restaurant }: { restaurant: SelectRestaurant }) {
   const { name, address, photo, rating, price, link } = restaurant;
-  const [imgSrc, setImgSrc] = useState(photo);
+  const defaultImage = "/food.jpg";
+  const [imgSrc, setImgSrc] = useState(photo !== "unknown" && photo ? photo : defaultImage);
   const [restaurantCoords, setRestaurantCoords] = useState<{ latitude: number; longitude: number } | null>(null);
   const { location } = useLocation();
 

@@ -3,19 +3,19 @@ import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 
 type CardProps = {
+  id: number
   title: string;
   description: string;
   image: StaticImageData;
   altText: string;
-  color: string;
   path: string;
 };
 
-function Card({ title, description, image, altText, color, path }: CardProps) {
+function Card({ id, title, description, image, altText, path }: CardProps) {
   return (
     <Link href={path} passHref>
       <div
-        className={`hover:scale-[1.01] transition-all bg-slate-600 shadow-md flex justify-between rounded-xl w-full p-4 bg-[#${color}]`}
+        className={`hover:scale-[1.01] transition-all shadow-md flex justify-between rounded-xl w-full p-4 bg-gradient-to-r  ${id === 1 ? "from-[#FFD8D8]" : id === 2 ? "from-[#F6E3BE]" : id === 3 ? "from-[#F0EAAC]" : "from-[#CCE0AC]"} to-white to-90%`}
       >
         <div className="flex flex-col justify-center">
           <h1 className="font-bold text-2xl">{title}</h1>

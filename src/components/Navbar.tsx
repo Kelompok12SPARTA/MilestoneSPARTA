@@ -8,7 +8,9 @@ import Image from "next/image";
 const Navbar: React.FC = () => {
   const [shadow, setShadow] = useState(false);
   const { location, isLoading } = useLocation();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
+  
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,7 +40,20 @@ const Navbar: React.FC = () => {
             ? location.address || "Address not found"
             : "Getting your location..."}
         </div>
-        <div className="flex gap-4 items-center justify-center">
+        <div className="sm:hidden">
+          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden">
+            {isMenuOpen ? (
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+              </svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+              </svg>
+            )}
+          </button>
+        </div>
+        <div className={`flex-col sm:flex-row shadow-lg sm:shadow-none sm:flex absolute sm:static pb-6 sm:pb-0 top-[80px] left-0 right-0 sm:top-0 gap-4 items-center justify-center bg-[#F1F0F0] ${isMenuOpen ? "flex" : "hidden"} `}>
           <a href="/">
             <button
               className={`px-8 py-2 border-black rounded-3xl hover:underline ${
@@ -70,7 +85,7 @@ const Navbar: React.FC = () => {
               Under 50k
             </button>
           </a>
-          <a href="/leaderboard">
+          <a href="/Comingsoon">
             <button
               className={`px-8 py-2 border-black rounded-3xl hover:underline ${
                 pathname === "/leaderboard"

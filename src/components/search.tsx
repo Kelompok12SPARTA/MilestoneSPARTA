@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FoodCard } from "@/components/foodcard";
 import SearchBar from "@/components/searchbar";
 import { Restaurant } from "@/types/components";
@@ -10,10 +10,28 @@ interface SearchProps {
   type?: 'recommended' | 'leaderboard' | 'default';
 }
 
-function Search({ restaurants, type }: SearchProps) {
+function Search({ restaurants, type: initialType }: SearchProps) {
   const [searchTerm, setSearchTerm] = useState(""); // State for search input
   const [currentPage, setCurrentPage] = useState(1); // State for pagination  
+  const [type, setType] = useState<'recommended' | 'leaderboard' | 'default'>(initialType || 'default');
   const totalItemsPerPage = 12; // Total items per page
+
+  useEffect(() => {
+    const handleResize = () => {
+      const isSmallScreen = window.matchMedia("(max-width: 640px)").matches; // Tailwind's sm breakpoint (640px)
+      if (isSmallScreen) {
+        setType('leaderboard');
+      } else {
+        setType(initialType || 'default');
+      }
+    };
+
+    handleResize(); // Call once to set initial state
+    window.addEventListener('resize', handleResize); // Listen for resize events
+
+    return () => window.removeEventListener('resize', handleResize); // Cleanup listener on component unmount
+  }, [initialType]);
+
 
   const filteredRestaurants = restaurants.filter((restaurant) =>
     restaurant.name.toLowerCase().includes(searchTerm.toLowerCase())
