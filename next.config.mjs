@@ -9,6 +9,10 @@ const nextConfig = {
             'encrypted-tbn0.gstatic.com',
             'cf.bstatic.com',
             'lh5.googleusercontent.com',
+            'lh3.googleusercontent.com',
+            'streetviewpixels-pa.googleapis.com',
+            'www.sumedangtourism-inparupi.com',
+            'www.google.com',
         ],
     },
 };
