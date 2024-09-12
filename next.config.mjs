@@ -12,7 +12,6 @@ const nextConfig = {
             'lh3.googleusercontent.com',
             'streetviewpixels-pa.googleapis.com',
             'www.sumedangtourism-inparupi.com',
-            '*',
         ],
     },
 };
