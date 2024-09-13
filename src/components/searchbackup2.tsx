@@ -5,12 +5,10 @@ import { FoodCard } from "@/components/foodcard";
 import SearchBar from "@/components/searchbar";
 import { Restaurant } from "@/types/components";
 import { useLocation } from "@/utils/LocationContext";
-import { fetchPlaceCoordinates } from "@/utils/mapUtils"; // Import the function here
 
 interface SearchProps {
   restaurants: Restaurant[];
   type?: 'recommended' | 'leaderboard' | 'default';
-  isNearMePage?: boolean; // New prop to identify if it's the "Near Me" page
 }
 
 const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
@@ -26,17 +24,24 @@ const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: numbe
   return R * c; // Return distance in kilometers
 };
 
-const extractPlaceId = (url: string): string | null => {
-  const match = url.match(/place_id:([a-zA-Z0-9_-]+)/);
-  return match ? match[1] : null;
+// Function to parse latitude and longitude from a URL
+const parseCoordinatesFromUrl = (url: string): { latitude: number | null, longitude: number | null } => {
+  const regex = /@(-?\d+\.\d+),(-?\d+\.\d+)/;
+  const match = url.match(regex);
+  if (match) {
+    return {
+      latitude: parseFloat(match[1]),
+      longitude: parseFloat(match[2]),
+    };
+  }
+  return { latitude: null, longitude: null };
 };
 
-function Search({ restaurants, type: initialType, isNearMePage = false }: SearchProps) {
+function Search({ restaurants, type: initialType }: SearchProps) {
   const [searchTerm, setSearchTerm] = useState(""); // State for search input
   const [currentPage, setCurrentPage] = useState(1); // State for pagination  
   const [maxDistance, setMaxDistance] = useState(3); // Max distance in km
   const [type, setType] = useState<'recommended' | 'leaderboard' | 'default'>(initialType || 'default');
-  const [restaurantData, setRestaurantData] = useState<Restaurant[]>([]); // State to hold restaurants with distance
   const totalItemsPerPage = 12; // Total items per page
   const { location } = useLocation(); // User's location
 
@@ -56,43 +61,19 @@ function Search({ restaurants, type: initialType, isNearMePage = false }: Search
     return () => window.removeEventListener('resize', handleResize); // Cleanup listener on component unmount
   }, [initialType]);
 
-  useEffect(() => {
-    // Function to fetch and calculate distances for restaurants
-    const fetchRestaurantData = async () => {
-      const updatedRestaurants = await Promise.all(
-        restaurants.map(async (restaurant) => {
-          const placeId = extractPlaceId(restaurant.link || "");
-          if (placeId) {
-            const coords = await fetchPlaceCoordinates(placeId);
-            if (coords && location.coords) {
-              const distance = calculateDistance(
-                location.coords.latitude,
-                location.coords.longitude,
-                coords.latitude,
-                coords.longitude
-              );
-              return { ...restaurant, distance };
-            }
-          }
-          return { ...restaurant, distance: null };
-        })
-      );
-
-      setRestaurantData(updatedRestaurants);
-    };
-
-    fetchRestaurantData();
-  }, [restaurants, location]);
-
-  // Apply distance filter only if on the "Near Me" page
-  const filteredRestaurants = isNearMePage
-    ? restaurantData
-        .filter(restaurant => restaurant.distance !== null && restaurant.distance <= maxDistance) // Filter based on max distance
-        .filter(restaurant => restaurant.name.toLowerCase().includes(searchTerm.toLowerCase())) // Filter by search term
-        .sort((a, b) => (a.distance ?? 0) - (b.distance ?? 0)) // Sort by distance (closest first)
-    : restaurantData
-        .filter(restaurant => restaurant.name.toLowerCase().includes(searchTerm.toLowerCase())) // Only filter by search term
-        .sort(() => Math.random() - 0.5); // Randomize order if on the homepage
+  const filteredRestaurants = restaurants
+    .map((restaurant) => {
+      const { latitude, longitude } = parseCoordinatesFromUrl(restaurant.link || "");
+      console.log("Parsed Coordinates:", latitude, longitude);
+      
+      const distance = location.coords && latitude && longitude
+        ? calculateDistance(location.coords.latitude, location.coords.longitude, latitude, longitude)
+        : null;
+      return { ...restaurant, distance };
+    })
+    .filter(restaurant => restaurant.distance !== null && restaurant.distance <= maxDistance) // Filter based on max distance
+    .filter(restaurant => restaurant.name.toLowerCase().includes(searchTerm.toLowerCase())) // Filter by search term
+    .sort((a, b) => (a.distance ?? 0) - (b.distance ?? 0)); // Sort by distance (closest first)
 
   const indexOfLastItem = currentPage * totalItemsPerPage; // Index of last item
   const indexOfFirstItem = indexOfLastItem - totalItemsPerPage; // Index of first item
@@ -118,23 +99,21 @@ function Search({ restaurants, type: initialType, isNearMePage = false }: Search
     <>
       <SearchBar value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} /> {/* Pass state and updater */}
       
-      {/* Max Distance Filter (only show this on the Near Me page) */}
-      {isNearMePage && (
-        <div className="my-4 w-full flex flex-col">
-          <label htmlFor="maxDistance" className="text-black">
-            Max Distance: {maxDistance} km
-          </label>
-          <input
-            id="maxDistance"
-            type="range"
-            min="1"
-            max="3"
-            value={maxDistance}
-            onChange={(e) => setMaxDistance(Number(e.target.value))}
-            className="w-[240px] bg-black"
-          />
-        </div>
-      )}
+      {/* Max Distance Filter */}
+      <div className="my-4">
+        <label htmlFor="maxDistance" className="text-black">
+          Max Distance: {maxDistance} km
+        </label>
+        <input
+          id="maxDistance"
+          type="range"
+          min="1"
+          max="3"
+          value={maxDistance}
+          onChange={(e) => setMaxDistance(Number(e.target.value))}
+          className="w-full"
+        />
+      </div>
 
       <div className={`grid ${gridColumnsClass} gap-4 gap-y-6 mt-12`}>
         {currentItems.map((restaurant) => (

@@ -9,8 +9,6 @@ export default async function Home() {
   const restaurants = await db
     .select()
     .from(restaurantTable)
-    .orderBy(sql`CAST(distance AS INTEGER)`)
-    .limit(6);
 
   return (
     <main className="bg-gradient-to-b from-[#FFD8D8] from-10%  to-white to-90% flex min-h-screen flex-col items-center p-12 sm:p-24 pt-28">
@@ -19,7 +17,7 @@ export default async function Home() {
           Near me
         </h1>
         {/* Render the Search component */}
-        <Search restaurants={restaurants}/>
+        <Search restaurants={restaurants} isNearMePage={true}/>
       </div>
     </main>
   );

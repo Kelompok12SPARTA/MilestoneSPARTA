@@ -37,6 +37,7 @@ export function FoodCard({ restaurant }: { restaurant: SelectRestaurant }) {
     if (location.coords && restaurantCoords) {
       const { latitude: lat1, longitude: lon1 } = location.coords;
       const { latitude: lat2, longitude: lon2 } = restaurantCoords;
+      console.log("restaurant coord: ", restaurantCoords);
 
       const toRad = (value: number) => (value * Math.PI) / 180;
       const R = 6371; // Radius of the Earth in km

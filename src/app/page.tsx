@@ -1,13 +1,10 @@
 import Card from "@/components/card";
-import SearchBar from "@/components/searchbar";
 import location from "../../public/location.svg";
 import fifty from "../../public/50.svg";
 import chart from "../../public/chart.svg";
 import thumbs from "../../public/thumbs.svg";
 import { db } from "@/db";
 import { restaurantTable } from "@/db/schema";
-import { FoodCard } from "@/components/foodcard";
-import Image from "next/image";
 import Search from "@/components/search";
 
 const cardData = [
@@ -81,7 +78,7 @@ export default async function Home() {
         <h1 className="text-[#46404F] text-4xl font-extrabold mb-6">
           Today&rsquo;s Choices
         </h1>
-        <Search restaurants={restaurants} type='recommended'/>
+        <Search restaurants={restaurants} type='recommended' isNearMePage={false}/>
       </div>
     </main>
   );
