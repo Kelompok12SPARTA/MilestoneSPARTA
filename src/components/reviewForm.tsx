@@ -55,7 +55,7 @@ function ReviewForm({ restaurantId }: ReviewFormProps) {
         onChange={(e) => setContent(e.target.value)}
         placeholder="Write your review here..."
         required
-        className="w-full p-2 border rounded mb-4"
+        className="text-black w-full p-2 border rounded mb-4"
       />
       {error && <p className="text-red-500">{error}</p>}
       <button
