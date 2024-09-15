@@ -8,9 +8,7 @@ import Search from "@/components/search";
 //sort descending by rating
 export default async function Home() {
   const restaurants = await db
-    .select()
-    .from(restaurantTable)
-    .orderBy(desc(sql`CAST(rating AS INTEGER)`));
+    .execute(sql'SELECT * FROM ${restaurantTable} ORDER BY ${restaurantTable.rating} DESC);
 
   return (
     <main className="bg-[#F1F0F0] flex min-h-screen flex-col items-center p-24 pt-28">
