@@ -85,7 +85,7 @@ const Navbar: React.FC = () => {
               Under 50k
             </button>
           </a>
-          <a href="/Comingsoon">
+          <a href="/leaderboard">
             <button
               className={`px-8 py-2 border-black rounded-3xl hover:underline ${
                 pathname === "/leaderboard"

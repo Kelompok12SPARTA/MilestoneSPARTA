@@ -6,6 +6,8 @@ import thumbs from "../../public/thumbs.svg";
 import { db } from "@/db";
 import { restaurantTable } from "@/db/schema";
 import Search from "@/components/search";
+import ReviewForm from "@/components/reviewForm";
+import RestaurantReviews from "@/components/restaurantReviews";
 
 const cardData = [
   {

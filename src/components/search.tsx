@@ -5,12 +5,13 @@ import { FoodCard } from "@/components/foodcard";
 import SearchBar from "@/components/searchbar";
 import { Restaurant } from "@/types/components";
 import { useLocation } from "@/utils/LocationContext";
-import { fetchPlaceCoordinates } from "@/utils/mapUtils"; // Import the function here
+import { fetchPlaceCoordinates } from "@/utils/mapUtils";
+import Link from 'next/link'; // Import Link for navigation
 
 interface SearchProps {
   restaurants: Restaurant[];
   type?: 'recommended' | 'leaderboard' | 'default';
-  isNearMePage?: boolean; // New prop to identify if it's the "Near Me" page
+  isNearMePage?: boolean;
 }
 
 const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
@@ -23,7 +24,7 @@ const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: numbe
     Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
     Math.sin(dLon / 2) * Math.sin(dLon / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c; // Return distance in kilometers
+  return R * c;
 };
 
 const extractPlaceId = (url: string): string | null => {
@@ -32,17 +33,17 @@ const extractPlaceId = (url: string): string | null => {
 };
 
 function Search({ restaurants, type: initialType, isNearMePage = false }: SearchProps) {
-  const [searchTerm, setSearchTerm] = useState(""); // State for search input
-  const [currentPage, setCurrentPage] = useState(1); // State for pagination  
-  const [maxDistance, setMaxDistance] = useState(3); // Max distance in km
+  const [searchTerm, setSearchTerm] = useState(""); 
+  const [currentPage, setCurrentPage] = useState(1);  
+  const [maxDistance, setMaxDistance] = useState(3); 
   const [type, setType] = useState<'recommended' | 'leaderboard' | 'default'>(initialType || 'default');
-  const [restaurantData, setRestaurantData] = useState<Restaurant[]>([]); // State to hold restaurants with distance
-  const totalItemsPerPage = 12; // Total items per page
-  const { location } = useLocation(); // User's location
+  const [restaurantData, setRestaurantData] = useState<Restaurant[]>([]); 
+  const totalItemsPerPage = 12;
+  const { location } = useLocation(); 
 
   useEffect(() => {
     const handleResize = () => {
-      const isSmallScreen = window.matchMedia("(max-width: 640px)").matches; // Tailwind's sm breakpoint (640px)
+      const isSmallScreen = window.matchMedia("(max-width: 640px)").matches; 
       if (isSmallScreen) {
         setType('leaderboard');
       } else {
@@ -50,14 +51,13 @@ function Search({ restaurants, type: initialType, isNearMePage = false }: Search
       }
     };
 
-    handleResize(); // Call once to set initial state
-    window.addEventListener('resize', handleResize); // Listen for resize events
+    handleResize(); 
+    window.addEventListener('resize', handleResize);
 
-    return () => window.removeEventListener('resize', handleResize); // Cleanup listener on component unmount
+    return () => window.removeEventListener('resize', handleResize); 
   }, [initialType]);
 
   useEffect(() => {
-    // Function to fetch and calculate distances for restaurants
     const fetchRestaurantData = async () => {
       const updatedRestaurants = await Promise.all(
         restaurants.map(async (restaurant) => {
@@ -84,23 +84,22 @@ function Search({ restaurants, type: initialType, isNearMePage = false }: Search
     fetchRestaurantData();
   }, [restaurants, location]);
 
-  // Apply distance filter only if on the "Near Me" page
   const filteredRestaurants = isNearMePage
     ? restaurantData
-        .filter(restaurant => restaurant.distance !== null && restaurant.distance <= maxDistance) // Filter based on max distance
-        .filter(restaurant => restaurant.name.toLowerCase().includes(searchTerm.toLowerCase())) // Filter by search term
-        .sort((a, b) => (a.distance ?? 0) - (b.distance ?? 0)) // Sort by distance (closest first)
+        .filter(restaurant => restaurant.distance !== null && restaurant.distance <= maxDistance)
+        .filter(restaurant => restaurant.name.toLowerCase().includes(searchTerm.toLowerCase()))
+        .sort((a, b) => (a.distance ?? 0) - (b.distance ?? 0))
     : restaurantData
-        .filter(restaurant => restaurant.name.toLowerCase().includes(searchTerm.toLowerCase())) // Only filter by search term
-        .sort(() => Math.random() - 0.5); // Randomize order if on the homepage
+        .filter(restaurant => restaurant.name.toLowerCase().includes(searchTerm.toLowerCase()))
+        .sort(() => Math.random() - 0.5); 
 
-  const indexOfLastItem = currentPage * totalItemsPerPage; // Index of last item
-  const indexOfFirstItem = indexOfLastItem - totalItemsPerPage; // Index of first item
-  const currentItems = filteredRestaurants.slice(indexOfFirstItem, indexOfLastItem); // Current items to display
+  const indexOfLastItem = currentPage * totalItemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - totalItemsPerPage;
+  const currentItems = filteredRestaurants.slice(indexOfFirstItem, indexOfLastItem);
 
-  const totalPages = Math.ceil(filteredRestaurants.length / totalItemsPerPage); // Total pages
+  const totalPages = Math.ceil(filteredRestaurants.length / totalItemsPerPage);
 
-  const gridColumnsClass = type === 'recommended' ? "grid-cols-3" : type === "leaderboard" ? "grid-cols-1" : "grid-cols-2"; // Conditional grid columns
+  const gridColumnsClass = type === 'recommended' ? "grid-cols-3" : type === "leaderboard" ? "grid-cols-1" : "grid-cols-2";
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -116,9 +115,8 @@ function Search({ restaurants, type: initialType, isNearMePage = false }: Search
 
   return (
     <>
-      <SearchBar value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} /> {/* Pass state and updater */}
+      <SearchBar value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} /> 
       
-      {/* Max Distance Filter (only show this on the Near Me page) */}
       {isNearMePage && (
         <div className="my-4 w-full flex flex-col">
           <label htmlFor="maxDistance" className="text-black">
@@ -138,7 +136,9 @@ function Search({ restaurants, type: initialType, isNearMePage = false }: Search
 
       <div className={`grid ${gridColumnsClass} gap-4 gap-y-6 mt-12`}>
         {currentItems.map((restaurant) => (
-          <FoodCard key={restaurant.id} restaurant={restaurant} />
+          <Link href={`/restaurant/${restaurant.id}`} key={restaurant.id}>
+              <FoodCard restaurant={restaurant} />
+          </Link>
         ))}
       </div>
 

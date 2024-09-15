@@ -37,7 +37,6 @@ export function FoodCard({ restaurant }: { restaurant: SelectRestaurant }) {
     if (location.coords && restaurantCoords) {
       const { latitude: lat1, longitude: lon1 } = location.coords;
       const { latitude: lat2, longitude: lon2 } = restaurantCoords;
-      console.log("restaurant coord: ", restaurantCoords);
 
       const toRad = (value: number) => (value * Math.PI) / 180;
       const R = 6371; // Radius of the Earth in km
@@ -58,41 +57,39 @@ export function FoodCard({ restaurant }: { restaurant: SelectRestaurant }) {
   const distanceInKm = calculateDistance();
 
   return (
-    <Link href={link} passHref>
-      <div className="flex items-start hover:scale-[1.01] rounded-lg h-full overflow-hidden transition-transform duration-200">
-        {photo !== "No photo available" && (
-          <div className="flex w-auto h-full max-h-[144px] object-cover">
-            <Image
-              src={imgSrc}
-              alt={name}
-              width={200}
-              height={200}
-              className="object-cover rounded-lg"
-              onError={handleImageError}
-            />
-          </div>
-        )}
-        <div className="w-2/3 px-4">
-          <h3 className="text-[#000000] font-bold">
-            {name} - {address}
-          </h3>
-          <div className="flex flex-col gap-2">
-            {rating && (
-              <p className="text-[#000000] mt-1">
-                ⭐ {rating} <span className="text-[#000000]">({})</span>
-              </p>
-            )}
-            {distanceInKm && (
-              <span className="mt-0 text-[#000000]">
-                {distanceInKm} km
-              </span>
-            )}
-            {price !== "Unknown" && (
-              <span className="mt-0 text-[#000000]">{price}</span>
-            )}
-          </div>
+    <div className="flex items-start hover:scale-[1.01] rounded-lg h-full overflow-hidden transition-transform duration-200">
+      {photo !== "No photo available" && (
+        <div className="flex w-auto h-full max-h-[144px] object-cover">
+          <Image
+            src={imgSrc}
+            alt={name}
+            width={200}
+            height={200}
+            className="object-cover rounded-lg"
+            onError={handleImageError}
+          />
+        </div>
+      )}
+      <div className="w-2/3 px-4">
+        <h3 className="text-[#000000] font-bold">
+          {name} - {address}
+        </h3>
+        <div className="flex flex-col gap-2">
+          {rating && (
+            <p className="text-[#000000] mt-1">
+              ⭐ {rating} <span className="text-[#000000]">({})</span>
+            </p>
+          )}
+          {distanceInKm && (
+            <span className="mt-0 text-[#000000]">
+              {distanceInKm} km
+            </span>
+          )}
+          {price !== "Unknown" && (
+            <span className="mt-0 text-[#000000]">{price}</span>
+          )}
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
