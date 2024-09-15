@@ -35,7 +35,7 @@ const cardData = [
     image: chart,
     altText: "Another icon",
     color: "F0EAAC",
-    path: "/Comingsoon",
+    path: "/leaderboard",
   },
   {
     id: 4,
