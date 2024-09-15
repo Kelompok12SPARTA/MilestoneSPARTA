@@ -2,6 +2,7 @@ import { FoodCard } from "@/components/foodcard";
 import { db } from "@/db";
 import { restaurantTable } from "@/db/schema";
 import { sql } from "drizzle-orm";
+import Link from "next/link";
 
 //find 3 restaurants randomly
 export default async function Home() {
@@ -19,7 +20,9 @@ export default async function Home() {
         </h1>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {restaurants.map((restaurant) => (
-            <FoodCard key={restaurant.id} restaurant={restaurant} />
+            <Link href={`/restaurant/${restaurant.id}`} key={restaurant.id}>
+              <FoodCard key={restaurant.id} restaurant={restaurant}/>
+            </Link>
           ))}
         </div>
       </div>
