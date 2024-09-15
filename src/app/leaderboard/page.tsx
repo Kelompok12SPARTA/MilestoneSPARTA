@@ -10,7 +10,7 @@ export default async function Home() {
   const restaurants = await db
     .select()
     .from(restaurantTable)
-    .orderBy(desc(restaurantTable.rating));
+    .orderBy(desc(sql`CAST(rating AS INTEGER)`));
 
   return (
     <main className="bg-[#F1F0F0] flex min-h-screen flex-col items-center p-24 pt-28">
