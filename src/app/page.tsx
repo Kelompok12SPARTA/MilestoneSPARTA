@@ -78,7 +78,7 @@ export default async function Home() {
       </div>
       <div className="flex flex-col mt-12 w-full justify-center items-center">
         <h1 className="text-[#46404F] text-4xl font-extrabold mb-6">
-          Today&rsquo;s Choices
+          Places To Eat
         </h1>
         <Search restaurants={restaurants} type='recommended' isNearMePage={false}/>
       </div>
