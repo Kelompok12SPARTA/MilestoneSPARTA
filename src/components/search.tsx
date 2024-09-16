@@ -91,7 +91,7 @@ function Search({ restaurants, type: initialType, isNearMePage = false }: Search
         .sort((a, b) => (a.distance ?? 0) - (b.distance ?? 0))
     : restaurantData
         .filter(restaurant => restaurant.name.toLowerCase().includes(searchTerm.toLowerCase()))
-        .sort(() => Math.random() - 0.5); 
+        //.sort(() => Math.random() - 0.5); 
 
   const indexOfLastItem = currentPage * totalItemsPerPage;
   const indexOfFirstItem = indexOfLastItem - totalItemsPerPage;
@@ -147,7 +147,7 @@ function Search({ restaurants, type: initialType, isNearMePage = false }: Search
           <button 
             onClick={handlePrevPage}
             disabled={currentPage === 1}
-            className="px-4 py-2 bg-gray-300 rounded disabled:bg-gray-100"
+            className="px-4 py-2 bg-blue-500 rounded disabled:bg-gray-100"
           >
             Previous
           </button>
@@ -166,7 +166,7 @@ function Search({ restaurants, type: initialType, isNearMePage = false }: Search
           <button 
             onClick={handleNextPage}
             disabled={currentPage === totalPages}
-            className="px-4 py-2 bg-gray-300 rounded disabled:bg-gray-100"
+            className="px-4 py-2 bg-blue-500 rounded disabled:bg-gray-100"
           >
             Next
           </button>
